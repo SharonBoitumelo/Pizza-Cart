@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Cart</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <div class="container" x-data="{
+        showCart: false, 
+        payNow: false,
+        paymentAmount: 0,
+        makePayment() {
+
+        },
+
+        smallTotal: 0.00, 
+        smallQ: 0,
+        buySmall () {
+            this.smallTotal +=58.99;
+            this.smallQ +=1
+        },
+         clearSmall() {
+            if (this.smallQ > 0) {
+                this.smallTotal -=58.99;
+                this.smallQ -=1
+            }
+         },
+
+         mediumTotal: 0.00, 
+         mediumQ: 0,
+         buyMedium () {
+            this.mediumTotal +=68.99;
+            this.mediumQ +=1
+        },
+        clearMedium() {
+            if (this.mediumQ > 0) {
+                this.mediumTotal -=68.99;
+                this.mediumQ -=1
+            }
+         },
+
+         largeTotal: 0.00, 
+         largeQ:0,
+         buyLarge () {
+            this.largeTotal +=78.99;
+            this.largeQ +=1
+        },
+        clearLarge() {
+            if (this.largeQ > 0) {
+                this.largeTotal -=78.99;
+                this.largeQ -=1
+            }
+         },
+
+        cartTotal() {
+            return this.smallTotal + this.mediumTotal + this.largeTotal
+        }
+    }">
+
+        <div class="header">
+            <div class="f3">
+                <h1>Pizzalicious</h1>
+
+                <img src="Pizza.png" alt="" width="40">
+               
+            </div>
+        </div>
+        <div class="f1">
+            <button x-on:click="showCart=true"><img src="cart.png" alt="" width="80">
+                Show Cart <strong x-show="cartTotal() > 0">R <span x-text="cartTotal().toFixed(2)"></span></strong></button>
+                
+
+            </a>
+        </div>
+    
+
+       <div class="shopping cart" x-show="showCart">
+        <div> 
+            <button x-on:click="showCart=false"><img src="cart.png" alt="" width="80">
+                Close Cart</button>
+        </div>
+        <h2 style="text-align: center;">Shopping cart</h2>
+
+        <table style="width: 50%;", border="1", align="center">
+         <tr x-show="smallQ > 0">
+           <td>Small pizza</td>
+           <td>
+            <span x-text="smallQ"></span>
+            <button x-on:click="buySmall" x-show="smallQ > 0">+</button>
+             <button x-on:click="clearSmall" x-show="smallQ > 0">-</button>
+           </td>
+           <td>
+            R<span x-text="smallTotal.toFixed(2)"></span>
+        </td>
+         </tr>
+
+         <tr x-show="mediumQ > 0">
+            <td>Medium pizza</td>
+            <td>
+                <span x-text="mediumQ"></span>
+                <button x-on:click="buyMedium" x-show="mediumQ > 0">+</button>
+                <button x-on:click="clearMedium" x-show="mediumQ > 0">-</button>
+            </td>
+            <td>
+                R<span x-text="mediumTotal.toFixed(2)"></span>
+            </td>
+         </tr>
+
+          <tr x-show="largeQ > 0">
+                <td>Large pizza</td>
+                <td>
+                    <span x-text="largeQ"></span>
+                    <button x-on:click="buyLarge" x-show="largeQ > 0">+</button>
+                    <button x-on:click="clearLarge" x-show="largeQ > 0">-</button>
+                </td>
+                <td>
+                    R<span x-text="largeTotal.toFixed(2)"></span>
+                </td>
+          </tr>
+
+          <tr>
+            <td colspan="2">Total cost</td>
+            <td>
+                R<span x-text="cartTotal().toFixed(2)"></span>
+            </td>
+          </tr>
+
+         <tr>
+          <td colspan="2"> 
+
+         <div x-show="payNow">
+           <div class="message" style="background-color: cornflowerblue;"> Payment loading...
+           </div> 
+
+            <div>
+                <label for="">Payment amount</label> 
+                <input class="input"type="number" placeholder="R0.00" x-mode="paymentAmount">
+                <button  x-on:click="makePayment" class="btn">Pay now</button>
+            </div>
+         </div>
+          
+         <div>
+            <div x-text="paymentAmount"></div>
+         </div>
+          </td>
+            
+            <td>
+                <button x-show="!payNow" x-on:click="payNow=true" class="btn"style="background-color: grey;"> Pay</button>
+            </td>
+         </tr>
+        </table>
+
+    </div>
+
+    <div class="pizzas">
+        <div class="Small Pizza">
+            <h2> Small Pizza</h2>
+
+            <img src="Pizza.png" alt="" width="100"> 
+          <h3>R58.99</h3> 
+          <button class="buy btn" x-on:click="smallTotal += 58.99; smallQ +=1"> Buy</button>
+    
+           <p>Small pizza with 3 toppings
+           <br>1 meat topping
+           <br>3 or less other toppings </p> 
+        </div>
+
+        <div class="Medium Pizza">
+            <h2>Medium Pizza</h2>
+            <br>
+            <img src="Pizza.png" alt="" width="120">
+            <h3>R68.99</h3>
+            <button class="buy btn" x-on:click="mediumTotal += 68.99; mediumQ +=1"> Buy</button>
+
+           <p>Medium margeritha pizza with 3 topping max.
+           <br>2 or less other toppings
+           <br>3 or less other toppings</p>
+        </div>
+
+            <div class="Large Pizza">
+                <h2>Large Pizza</h2>
+                <br>
+                <img src="Pizza.png" alt="" width=" 150">
+                <h3>R78.99</h3>
+                <button class="buy btn" x-on:click="largeTotal += 78.99; largeQ +=1"> Buy</button>
+
+                <p>Large margeritha pizza with 3 toppings max.
+                    <br>3 or less other toppings
+                    <br>3 or less other toppings </p>
+            </div>
+    </div>
+
+                <div class= "footer"> 
+                  <h2>Contact details:</h2>
+                  <br>
+                   <br> Contact us at: (021)-541-1000 twitter <br>
+                    /fb<br>
+                    /insta<br> 
+                    @perfectpizza
+                    <div class="address">
+                        <h2>Address</h2>
+                        <br> Pizza Plaza <br> Dough Road<br>Base Town
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    Copyright ©
+                   
+                    <span x-text="new Date().getFullYear()" ></span>
+                  </div>
+            
+</body>
+</html>
